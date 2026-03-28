@@ -1,0 +1,115 @@
+--Services
+local Players = game:GetService("Players")
+local Teams = game:GetService("Teams")
+local LobbyTP = game.Workspace.TPLobby
+local GameTP = game.Workspace.TPGame
+--Timers
+local Intermission = 10
+local GameTime = 10
+local SeekerTime = 10
+--Minimum Players to Start
+local MinPlayers = 1
+
+local function AssignTeams()
+	local PList = Players:GetPlayers()
+	local totalplayers = #Players:GetPlayers()
+	
+	if totalplayers < 4 then
+		local randomPlayer = PList[math.random(1, totalplayers)]
+		randomPlayer.Team = Teams.Seeker
+		
+	elseif totalplayers >= 4 and totalplayers < 8 then
+		local randomPlayer = PList[math.random(1, totalplayers)]
+		randomPlayer.Team = Teams.Seeker
+		local lastseeker = randomPlayer
+
+		local randomPlayer = PList[math.random(1, totalplayers)]
+		while randomPlayer == lastseeker do
+			randomPlayer = PList[math.random(1, totalplayers)]
+		end
+		randomPlayer.Team = Teams.Seeker
+		
+	elseif totalplayers > 8 then
+		local randomPlayer = PList[math.random(1, totalplayers)]
+		randomPlayer.Team = Teams.Seeker
+		local lastseeker = randomPlayer
+
+		local randomPlayer = PList[math.random(1, totalplayers)]
+		while randomPlayer == lastseeker do
+			randomPlayer = PList[math.random(1, totalplayers)]
+		end
+		randomPlayer.Team = Teams.Seeker
+		local lastseeker = randomPlayer
+
+		local randomPlayer = PList[math.random(1, totalplayers)]
+		while randomPlayer == lastseeker do
+			randomPlayer = PList[math.random(1, totalplayers)]
+		end
+		randomPlayer.Team = Teams.Seeker
+	end
+	
+	
+	for i, player in ipairs(Players:GetPlayers()) do
+		if player.Team ~= Teams.Seeker then
+			player.Team = Teams.Hider
+		end
+	end	
+end
+
+local function TpToGame()
+	local pls = Players:GetPlayers()
+	for i, player in pls do
+		
+		if player.Team == Teams.Hider then
+			local character = player.Character
+			character:PivotTo(GameTP:GetPivot())
+			
+		elseif player.Team == Teams.Seeker then
+			task.wait(SeekerTime)
+			local character = player.Character
+			character:PivotTo(GameTP:GetPivot())
+		end
+		
+	end
+end
+
+local function GiveWeapon()
+	
+end
+
+local function ClearWeapons()
+	
+end
+
+local function ClearTeams()
+	local pls = Players:GetPlayers()
+	for i, player in pls do
+		player.Team = Teams.Spectator
+	end
+end
+
+local function TpToLobby()
+	
+	local pls = Players:GetPlayers()
+	for i, player in pls do
+		local character = player.Character
+		character:PivotTo(GameTP:GetPivot())
+	end
+	
+end
+
+
+while true do
+	if #Players:GetPlayers() >= MinPlayers then
+		for count = Intermission, 0, -1 do
+			print(count)
+			task.wait(1)
+		end
+		AssignTeams()
+		TpToGame()
+		ClearTeams()
+		TpToLobby()
+	end
+	task.wait(1)
+	print("Not enough players")
+end
