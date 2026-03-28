@@ -98,6 +98,9 @@ local function TpToLobby()
 	
 end
 
+local function ChooseMap()
+	
+end
 
 while true do
 	if #Players:GetPlayers() >= MinPlayers then
