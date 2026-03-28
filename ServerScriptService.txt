@@ -93,7 +93,7 @@ local function TpToLobby()
 	local pls = Players:GetPlayers()
 	for i, player in pls do
 		local character = player.Character
-		character:PivotTo(GameTP:GetPivot())
+		character:PivotTo(LobbyTP:GetPivot())
 	end
 	
 end
