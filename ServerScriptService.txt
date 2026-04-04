@@ -3,7 +3,7 @@ local Players = game:GetService("Players")
 local Teams = game:GetService("Teams")
 local LobbyTP = game.Workspace.TPLobby
 local GameTP = game.Workspace.TPGame
-local gun = game.ReplicatedStorage.Gun:Clone()
+
 
 --Timers
 local Intermission = 10
@@ -93,7 +93,7 @@ end
 
 local function ClearWeapons()
 	local pls = Players:GetPlayers()
-	joe biden
+ 
 end
 
 local function ClearTeams()
