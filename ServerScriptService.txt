@@ -131,6 +131,15 @@ local function DeleteMap()
 	game.Workspace.GameMap:ClearAllChildren()
 end
 
+local function runGame()
+	--This will have gamelogic like all hiders dying
+	for count = GameTime, 0, -1 do
+		print(count)
+		task.wait(1)
+		
+	end
+end 
+
 while true do
 	if #Players:GetPlayers() >= MinPlayers then
 		for count = Intermission, 0, -1 do
@@ -141,10 +150,7 @@ while true do
 		ChooseMap()
 		TpToGame()
 		GiveWeapon()
-		for count = GameTime, 0, -1 do
-			print(count)
-			task.wait(1)
-		end
+		runGame()
 		ClearWeapons()
 		ClearTeams()
 		TpToLobby()
