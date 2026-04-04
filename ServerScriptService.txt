@@ -64,9 +64,12 @@ local function TpToGame()
 			character:PivotTo(GameTP:GetPivot())
 		end	
 	end
+	for count = SeekerTime, 0, -1 do
+		task.wait(1)
+		print(count)	
+	end 
 	for i, player in pls do		
 		if player.Team == Teams.Seeker then
-			task.wait(SeekerTime)
 			local character = player.Character
 			character:PivotTo(GameTP:GetPivot())
 		end
@@ -138,7 +141,9 @@ local function runGame()
 	for count = GameTime, 0, -1 do
 		print(count)
 		task.wait(1)
-		if Player.player
+		if Players.pls.Health < 1 then
+			pls.Team
+		end
 	end
 end 
 
