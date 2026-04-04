@@ -112,7 +112,8 @@ while true do
 		TpToGame()
 		ClearTeams()
 		TpToLobby()
+	else
+		task.wait(1)
+		print("Not enough players")
 	end
-	task.wait(1)
-	print("Not enough players")
 end
