@@ -132,11 +132,13 @@ local function DeleteMap()
 end
 
 local function runGame()
+	local pls = Players:GetPlayers()
+	
 	--This will have gamelogic like all hiders dying
 	for count = GameTime, 0, -1 do
 		print(count)
 		task.wait(1)
-		
+		if Player.player
 	end
 end 
 
