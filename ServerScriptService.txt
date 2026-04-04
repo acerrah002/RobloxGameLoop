@@ -118,9 +118,13 @@ local function TpToLobby()
 	
 end
 
---local function ChooseMap()
+local function ChooseMap()
 	
---end
+end
+
+local function DeleteMap()
+
+end
 
 while true do
 	if #Players:GetPlayers() >= MinPlayers then
@@ -129,6 +133,7 @@ while true do
 			task.wait(1)
 		end
 		AssignTeams()
+		ChooseMap()
 		TpToGame()
 		GiveWeapon()
 		for count = GameTime, 0, -1 do
@@ -138,6 +143,7 @@ while true do
 		ClearWeapons()
 		ClearTeams()
 		TpToLobby()
+		DeleteMap()
 		
 	end
 	task.wait(1)
