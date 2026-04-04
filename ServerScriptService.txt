@@ -3,6 +3,8 @@ local Players = game:GetService("Players")
 local Teams = game:GetService("Teams")
 local LobbyTP = game.Workspace.TPLobby
 local GameTP = game.Workspace.TPGame
+local gun = game.ReplicatedStorage.Gun:Clone()
+
 --Timers
 local Intermission = 10
 local GameTime = 10
@@ -84,15 +86,15 @@ local function GiveWeapon()
 	for i, player in pls do
 		if player.Team == Teams.Seeker then
 			local character = player.Character
-			local gun = game.ReplicatedStorage.Gun:Clone()
 			gun.Parent = player.Backpack
 		end
 	end
 end
 
---local function ClearWeapons()
-	
---end
+local function ClearWeapons()
+	local pls = Players:GetPlayers()
+	joe biden
+end
 
 local function ClearTeams()
 	local pls = Players:GetPlayers()
@@ -128,6 +130,7 @@ while true do
 			print(count)
 			task.wait(1)
 		end
+		ClearWeapons()
 		--ClearTeams()
 		--TpToLobby()
 		
