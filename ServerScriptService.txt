@@ -4,11 +4,18 @@ local Teams = game:GetService("Teams")
 local LobbyTP = game.Workspace.TPLobby
 local GameTP = game.Workspace.TPGame
 --Timers
-local Intermission = 10
-local GameTime = 10
-local SeekerTime = 10
+local Intermission = 1
+local GameTime = 100
+local SeekerTime = 1
 --Minimum Players to Start
 local MinPlayers = 2
+
+game.Players.PlayerAdded:Connect(function(player)
+	player.CharacterAdded:Connect(function(character)
+		print(player.Name .. " has respawned!")
+		player.Team = Teams.Spectator
+	end)
+end)
 
 local function AssignTeams()
 	local PList = Players:GetPlayers()
@@ -136,14 +143,12 @@ end
 
 local function runGame()
 	local pls = Players:GetPlayers()
+	local Players = game:GetService("Players")
 	
-	--This will have gamelogic like all hiders dying
+	--This will have gamelogic that turns any respawned players to spectator
 	for count = GameTime, 0, -1 do
 		print(count)
 		task.wait(1)
-		if Players.pls.Health < 1 then
-			pls.Team
-		end
 	end
 end 
 
@@ -167,3 +172,4 @@ while true do
 	task.wait(1)
 	print("Not enough players")
 end
+
