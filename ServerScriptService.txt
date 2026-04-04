@@ -62,7 +62,8 @@ local function TpToGame()
 		if player.Team == Teams.Hider then
 			local character = player.Character
 			character:PivotTo(GameTP:GetPivot())
-			
+		end	
+		
 		for count = SeekerTime, 0, -1 do
 			print(count)
 			task.wait(1)
@@ -78,12 +79,20 @@ local function TpToGame()
 end
 
 local function GiveWeapon()
-	
+	local pls = Players:GetPlayers()
+	-- go to players inventory and clone gun that is in replicated storage and give to player
+	for i, player in pls do
+		if player.Team == Teams.Seeker then
+			local character = player.Character
+			local gun = game.ReplicatedStorage.Gun:Clone()
+			gun.Parent = player.Backpack
+		end
+	end
 end
 
-local function ClearWeapons()
+--local function ClearWeapons()
 	
-end
+--end
 
 local function ClearTeams()
 	local pls = Players:GetPlayers()
@@ -102,9 +111,9 @@ local function TpToLobby()
 	
 end
 
-local function ChooseMap()
+--local function ChooseMap()
 	
-end
+--end
 
 while true do
 	if #Players:GetPlayers() >= MinPlayers then
@@ -113,11 +122,16 @@ while true do
 			task.wait(1)
 		end
 		AssignTeams()
-		TpToGame()
-		ClearTeams()
-		TpToLobby()
-	else
-		task.wait(1)
-		print("Not enough players")
+		--TpToGame()
+		GiveWeapon()
+		for count = 100, 0, -1 do
+			print(count)
+			task.wait(1)
+		end
+		--ClearTeams()
+		--TpToLobby()
+		
 	end
+	task.wait(1)
+	print("not enough players")
 end
