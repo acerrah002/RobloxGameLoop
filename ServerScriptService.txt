@@ -59,11 +59,13 @@ end
 local function TpToGame()
 	local pls = Players:GetPlayers()
 	for i, player in pls do
-		
 		if player.Team == Teams.Hider then
 			local character = player.Character
 			character:PivotTo(GameTP:GetPivot())
-			
+			for count = SeekerTime, 0, -1 do
+				print(count)
+				task.wait(1)
+			end
 		elseif player.Team == Teams.Seeker then
 			task.wait(SeekerTime)
 			local character = player.Character
