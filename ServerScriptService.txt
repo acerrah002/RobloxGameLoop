@@ -129,19 +129,15 @@ while true do
 			task.wait(1)
 		end
 		AssignTeams()
-		--TpToGame()
+		TpToGame()
 		GiveWeapon()
-		for count = 5, 0, -1 do
+		for count = GameTime, 0, -1 do
 			print(count)
 			task.wait(1)
 		end
 		ClearWeapons()
-		for count = 10, 0, -1 do
-			print(count)
-			task.wait(1)
-		end
-		--ClearTeams()
-		--TpToLobby()
+		ClearTeams()
+		TpToLobby()
 		
 	end
 	task.wait(1)
