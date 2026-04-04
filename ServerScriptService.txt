@@ -63,6 +63,7 @@ local function TpToGame()
 			local character = player.Character
 			character:PivotTo(GameTP:GetPivot())
 		end	
+	end
 	for i, player in pls do		
 		if player.Team == Teams.Seeker then
 			task.wait(SeekerTime)
