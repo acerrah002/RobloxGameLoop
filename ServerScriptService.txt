@@ -123,8 +123,6 @@ local function ChooseMap()
 		local map = game.ServerStorage.Game1
 		local mapclone = map:Clone()
 		mapclone.Parent = game.Workspace.GameMap
-	else 
-		print("idk")
 	end
 	
 end
