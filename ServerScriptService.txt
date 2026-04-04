@@ -8,7 +8,7 @@ local Intermission = 10
 local GameTime = 10
 local SeekerTime = 10
 --Minimum Players to Start
-local MinPlayers = 1
+local MinPlayers = 2
 
 local function AssignTeams()
 	local PList = Players:GetPlayers()
