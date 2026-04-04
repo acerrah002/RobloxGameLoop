@@ -63,18 +63,12 @@ local function TpToGame()
 			local character = player.Character
 			character:PivotTo(GameTP:GetPivot())
 		end	
-		
-		for count = SeekerTime, 0, -1 do
-			print(count)
-			task.wait(1)
-		end
-			
+	for i, player in pls do		
 		if player.Team == Teams.Seeker then
 			task.wait(SeekerTime)
 			local character = player.Character
 			character:PivotTo(GameTP:GetPivot())
 		end
-		
 	end
 end
 
@@ -119,11 +113,23 @@ local function TpToLobby()
 end
 
 local function ChooseMap()
+	local random = math.random(1,2)
+	if random == 1 then
+		local map = game.ServerStorage.Game
+		local mapclone = map:Clone()
+		mapclone.Parent = game.Workspace.GameMap
+	elseif random == 2 then
+		local map = game.ServerStorage.Game1
+		local mapclone = map:Clone()
+		mapclone.Parent = game.Workspace.GameMap
+	else 
+		print("idk")
+	end
 	
 end
 
 local function DeleteMap()
-
+	game.Workspace.GameMap:ClearAllChildren()
 end
 
 while true do
@@ -147,5 +153,5 @@ while true do
 		
 	end
 	task.wait(1)
-	print("not enough players")
+	print("Not enough players")
 end
