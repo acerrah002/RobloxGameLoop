@@ -100,9 +100,7 @@ local function ClearWeapons()
 	-- go to players inventory and remove gun/clear backpack
 	for i, player in pls do
 		if player.Team == Teams.Seeker then
-			if player.Backpack:WaitForChild("Gun") then
-				player.Backpack:WaitForChild("Gun"):Destroy()
-			end
+			player.Backpack:ClearAllChildren()
 		end
 	end
 end
