@@ -4,9 +4,9 @@ local Teams = game:GetService("Teams")
 local LobbyTP = game.Workspace.TPLobby
 local GameTP = game.Workspace.TPGame
 --Timers
-local Intermission = 1
-local GameTime = 100
-local SeekerTime = 1
+local Intermission = 5
+local GameTime = 5
+local SeekerTime = 5
 --Minimum Players to Start
 local MinPlayers = 2
 
@@ -97,10 +97,16 @@ end
 
 local function ClearWeapons()
 	local pls = Players:GetPlayers()
+	print("Removing weapons")
+	task.wait(1)
 	-- go to players inventory and remove gun/clear backpack
 	for i, player in pls do
-		if player.Team == Teams.Seeker then
-			player.Backpack:ClearAllChildren()
+		print(player.Name)
+		player:WaitForChild("Backpack"):ClearAllChildren()
+		for _, item in pairs(player.Character:GetChildren()) do
+			if item:IsA("Tool") then
+				item:Destroy()
+			end
 		end
 	end
 end
