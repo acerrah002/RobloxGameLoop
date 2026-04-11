@@ -10,6 +10,7 @@ local SeekerTime = 1
 --Minimum Players to Start
 local MinPlayers = 2
 
+--turns anyone who dies to spectator back at spawn
 game.Players.PlayerAdded:Connect(function(player)
 	player.CharacterAdded:Connect(function(character)
 		print(player.Name .. " has respawned!")
@@ -144,9 +145,17 @@ end
 local function runGame()
 	local pls = Players:GetPlayers()
 	local Players = game:GetService("Players")
-	
+	local Teams = game:GetService("Teams")
+	--How to get the number of players in that team
+	print(#Teams.Seeker:GetPlayers())
 	--This will have gamelogic that turns any respawned players to spectator
+	--during the count down it checks if there are any hiders or seekers left alive if not the game ends and prints the winners who
+	--are the remaining
 	for count = GameTime, 0, -1 do
+		--if all members of the seeker team is 0 then hider team wins and breaks loop
+		--else if all members of the hider team is 0 then seeker team wins and breaks loop
+		--else both teams are 0 its a draw
+		--you need to get the current number of player in those teams
 		print(count)
 		task.wait(1)
 	end
