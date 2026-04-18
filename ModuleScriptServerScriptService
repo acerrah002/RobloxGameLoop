@@ -1,0 +1,64 @@
+local module = {}
+
+function module.morph(object)
+	local Model = object
+	local clickdetector = Instance.new("ClickDetector")
+	clickdetector.Parent = Model
+	
+	--for some reason it removes you from the hider team when you morph
+	local function Onclick(player)
+		--[[
+		local Teams = game:GetService("Teams")
+		local character = player.Character
+		if not character then return end
+		local morph = Model:Clone()	
+		morph.HumanoidRootPart.Anchored = false
+		morph.PrimaryPart = morph.HumanoidRootPart
+		morph:PivotTo(character:GetPivot())
+		player.Character = morph
+		player.Character.HumanoidRootPart.CFrame+= Vector3.new(0, 2, 0)
+		morph.Parent = workspace
+		player.Team = Teams.Hider]]--
+		local Teams = game:GetService("Teams")
+		local character = player.Character
+		if not character then return end
+		local morph = Model:Clone()    
+		morph.HumanoidRootPart.Anchored = false
+		morph.PrimaryPart = morph.HumanoidRootPart
+		morph:PivotTo(character:GetPivot() * CFrame.new(0, 2, 0))
+		player.Character = morph
+		morph.Parent = workspace
+		task.defer(function()
+			player.Team = Teams.Hider
+		end)
+		character:Destroy()
+	end
+
+
+	local function OnHoverEnter(player)
+		local playerGui = player:FindFirstChild("PlayerGui")
+		if playerGui then
+			local screenGui = playerGui:FindFirstChild("ScreenGui")
+			if screenGui then
+				screenGui.Enabled = true
+			end
+		end
+	end
+
+
+	local function OnHoverLeave(player)
+		local playerGui = player:FindFirstChild("PlayerGui")
+		if playerGui then
+			local screenGui = playerGui:FindFirstChild("ScreenGui")
+			if screenGui then
+				screenGui.Enabled = false
+			end
+		end
+	end
+
+	clickdetector.MouseClick:Connect(Onclick)
+	clickdetector.MouseHoverEnter:Connect(OnHoverEnter)
+	clickdetector.MouseHoverLeave:Connect(OnHoverLeave)
+end
+
+return module
