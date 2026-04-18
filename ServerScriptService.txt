@@ -4,13 +4,13 @@ local Teams = game:GetService("Teams")
 local LobbyTP = game.Workspace.TPLobby
 local GameTP = game.Workspace.TPGame
 --Timers
-local Intermission = 5
-local GameTime = 5
-local SeekerTime = 5
+local Intermission = 10
+local GameTime = 100
+local SeekerTime = 10
 --Minimum Players to Start
-local MinPlayers = 2
+local MinPlayers = 4
+local RE = game.ReplicatedStorage.RemoteEvent
 
---turns anyone who dies to spectator back at spawn
 game.Players.PlayerAdded:Connect(function(player)
 	player.CharacterAdded:Connect(function(character)
 		print(player.Name .. " has respawned!")
@@ -21,11 +21,11 @@ end)
 local function AssignTeams()
 	local PList = Players:GetPlayers()
 	local totalplayers = #Players:GetPlayers()
-	
+
 	if totalplayers < 4 then
 		local randomPlayer = PList[math.random(1, totalplayers)]
 		randomPlayer.Team = Teams.Seeker
-		
+
 	elseif totalplayers >= 4 and totalplayers < 8 then
 		local randomPlayer = PList[math.random(1, totalplayers)]
 		randomPlayer.Team = Teams.Seeker
@@ -36,7 +36,7 @@ local function AssignTeams()
 			randomPlayer = PList[math.random(1, totalplayers)]
 		end
 		randomPlayer.Team = Teams.Seeker
-		
+
 	elseif totalplayers > 8 then
 		local randomPlayer = PList[math.random(1, totalplayers)]
 		randomPlayer.Team = Teams.Seeker
@@ -55,8 +55,8 @@ local function AssignTeams()
 		end
 		randomPlayer.Team = Teams.Seeker
 	end
-	
-	
+
+
 	for i, player in ipairs(Players:GetPlayers()) do
 		if player.Team ~= Teams.Seeker then
 			player.Team = Teams.Hider
@@ -99,7 +99,7 @@ local function ClearWeapons()
 	local pls = Players:GetPlayers()
 	print("Removing weapons")
 	task.wait(1)
-	-- go to players inventory and remove gun/clear backpack
+	-- go to players inventory and remove gun/clear backpack and items
 	for i, player in pls do
 		print(player.Name)
 		player:WaitForChild("Backpack"):ClearAllChildren()
@@ -118,18 +118,15 @@ local function ClearTeams()
 	end
 end
 
-local function TpToLobby()
-	
-	local pls = Players:GetPlayers()
-	for i, player in pls do
-		local character = player.Character
-		character:PivotTo(LobbyTP:GetPivot())
-	end
-	
-end
+
+
+
 
 local function ChooseMap()
-	local random = math.random(1,2)
+	local map = game.ServerStorage.Map
+	local mapclone = map:Clone()
+	mapclone.Parent = game.Workspace.GameMap
+	--[[local random = math.random(1,2)
 	if random == 1 then
 		local map = game.ServerStorage.Game
 		local mapclone = map:Clone()
@@ -138,32 +135,55 @@ local function ChooseMap()
 		local map = game.ServerStorage.Game1
 		local mapclone = map:Clone()
 		mapclone.Parent = game.Workspace.GameMap
-	end
-	
+	end]]--
+
 end
 
-local function DeleteMap()
-	game.Workspace.GameMap:ClearAllChildren()
-end
+
+
 
 local function runGame()
 	local pls = Players:GetPlayers()
 	local Players = game:GetService("Players")
 	local Teams = game:GetService("Teams")
-	--How to get the number of players in that team
-	print(#Teams.Seeker:GetPlayers())
-	--This will have gamelogic that turns any respawned players to spectator
-	--during the count down it checks if there are any hiders or seekers left alive if not the game ends and prints the winners who
-	--are the remaining
 	for count = GameTime, 0, -1 do
-		--if all members of the seeker team is 0 then hider team wins and breaks loop
-		--else if all members of the hider team is 0 then seeker team wins and breaks loop
-		--else both teams are 0 its a draw
-		--you need to get the current number of player in those teams
+		local seekers = #Teams.Seeker:GetPlayers()
+		local hiders = #Teams.Hider:GetPlayers()
+		if seekers == 0 and hiders == 0 then
+			print("It's a draw!")
+			RE:FireAllClients("It's a draw!")
+			task.wait(5)
+			break
+		elseif seekers == 0 then
+			print("Hider team wins!")
+			RE:FireAllClients("Hider team wins!")
+			task.wait(5)
+			break
+		elseif hiders == 0 then
+			print("Seeker team wins!")
+			RE:FireAllClients("Seeker team wins!")
+			task.wait(5)
+			break
+		end
 		print(count)
 		task.wait(1)
 	end
 end 
+
+local function TpToLobby()
+	local pls = Players:GetPlayers()
+	for i, player in pls do
+		local character = player.Character
+		local humanoid = character:WaitForChild("Humanoid")
+		--humanoid health equals 0
+		--use a method from the humanoid documentation for the humanoid to take damage
+		humanoid:TakeDamage(90000)
+	end
+end
+
+local function DeleteMap()
+	game.Workspace.GameMap:ClearAllChildren()
+end
 
 while true do
 	if #Players:GetPlayers() >= MinPlayers then
@@ -180,7 +200,6 @@ while true do
 		ClearTeams()
 		TpToLobby()
 		DeleteMap()
-		
 	end
 	task.wait(1)
 	print("Not enough players")
