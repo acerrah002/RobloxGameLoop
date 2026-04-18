@@ -1,1 +1,6 @@
+RE = game.ReplicatedStorage.RemoteEvent
+textlabel = script.Parent.TextLabel
 
+RE.OnClientEvent:Connect(function(msg)
+	textlabel.Text = msg
+end)
